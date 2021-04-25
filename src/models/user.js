@@ -49,6 +49,11 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     },
+    imageUrl: {
+        type: String,
+        required: true,
+        default: 'https://online-dukaan-bucket.s3.ap-south-1.amazonaws.com/default.jpg'
+    },
     tokens: [{
         token: {
             type: String,

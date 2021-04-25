@@ -8,6 +8,21 @@ const { sendVerificationCode } = require('../emails/account')
 const Inventory = require('../models/inventory')
 const Order = require('../models/order')
 const Service = require('../models/service')
+const AWS = require('aws-sdk');
+const uuid = require('uuid')
+
+const s3 = new AWS.S3({
+    accessKeyId: require('../../config').AWS_ACCESS_ID,
+    secretAccessKey: require('../../config').AWS_SECRET_KEY
+})
+
+const storage = multer.memoryStorage({
+    destination: function (req, file, callback) {
+        callback(null, '')
+    }
+})
+
+const upload = multer({ storage }).single('image')
 
 router.post('/users/verifyEmail', async (req, res) => {
     console.log(req.body.email)
@@ -18,6 +33,27 @@ router.post('/users/verifyEmail', async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
+})
+
+router.post('/users/uploadImage', upload, async (req, res) => {
+    console.log('uploading')
+    let myFile = req.file.originalname.split(".")
+    const fileType = myFile[myFile.length - 1]
+
+    const params = {
+        Bucket: require('../../config').AWS_BUCKET_NAME,
+        Key: `${uuid()}.${fileType}`,
+        Body: req.file.buffer
+    }
+    s3.upload(params, (error, data) => {
+        if (error) {
+            res.status(500).send(error)
+        }
+        else {
+            console.log(data);
+            res.status(200).send({ url: data.Location })
+        }
+    })
 })
 
 router.post('/users/newUser', async (req, res) => {
