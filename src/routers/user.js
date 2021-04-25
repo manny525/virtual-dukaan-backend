@@ -9,7 +9,7 @@ const Inventory = require('../models/inventory')
 const Order = require('../models/order')
 const Service = require('../models/service')
 const AWS = require('aws-sdk');
-const uuid = require('uuid')
+const { v4: uuidv4 } = require('uuid');
 
 const s3 = new AWS.S3({
     accessKeyId: require('../../config').AWS_ACCESS_ID,
@@ -42,7 +42,7 @@ router.post('/users/uploadImage', upload, async (req, res) => {
 
     const params = {
         Bucket: require('../../config').AWS_BUCKET_NAME,
-        Key: `${uuid()}.${fileType}`,
+        Key: `${uuidv4()}.${fileType}`,
         Body: req.file.buffer
     }
     s3.upload(params, (error, data) => {

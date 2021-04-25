@@ -3,7 +3,7 @@ const User = require('../models/user')
 const router = new express.Router()
 const auth_customer = require('./../middleware/auth_customer')
 //Search By PostalCode
-router.get('/search', auth_customer, async (req, res) => {
+router.get('/search', async (req, res) => {
     // console.log(req.query)
     try {
         var merchants = await User.find({ "location.postalCode": req.query.postalCode, typeOfMerchant: req.query.typeOfMerchant })
@@ -12,7 +12,7 @@ router.get('/search', auth_customer, async (req, res) => {
         for (i = 0; i < merchants.length; i++) {
             const d = await distance({ lat: merchants[i].location.lat, lng: merchants[i].location.lon }, { lat: req.query.lat, lng: req.query.lon }) * 1.609344
             // console.log(d)
-            p.push({ _id: merchants[i]._id, shopName: merchants[i].shopName, merchantName: merchants[i].merchantName,address: merchants[i].location, type: merchants[i].providerOf, distance: d })
+            p.push({ _id: merchants[i]._id, shopName: merchants[i].shopName, merchantName: merchants[i].merchantName,address: merchants[i].location, type: merchants[i].providerOf, distance: d, imageUrl: merchants[i].imageUrl })
         }
         // console.log(p)
         res.send(p)
