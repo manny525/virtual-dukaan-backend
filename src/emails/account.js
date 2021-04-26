@@ -26,7 +26,7 @@ const sendVerificationCode = async (email) => {
     try {
         await sgMail.send({
             to: email,
-            from: 'aagrawal1@student.nitw.ac.in',
+            from: 'mmitesh@student.nitw.ac.in',
             subject: 'Verificaton Code',
             text: `Your verification code is ${vCode}`
         })
@@ -41,7 +41,7 @@ const sendPaymentOTP = async (email, otp, merchantName) => {
     try {
         await sgMail.send({
             to: email,
-            from: 'aagrawal1@student.nitw.ac.in',
+            from: 'mmitesh@student.nitw.ac.in',
             subject: 'Verificaton Code',
             text: `Your OTP for payment to ${merchantName} is ${otp}. 
             Give this code to the merchant to pickup your order or end your service request.`

@@ -13,6 +13,7 @@ const router = new express.Router()
 router.post('/customer/verifyEmail', async (req, res) => {
     try {
         const vCode = await sendVerificationCode(req.body.email)
+        console.log(vCode);
         res.send({ vCode: vCode.toString() })
     } catch (e) {
         res.status(400).send(e)
