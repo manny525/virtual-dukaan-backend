@@ -7,7 +7,16 @@ const userRouter = require('./routers/user')
 const inventoryRouter = require('./routers/inventory')
 const orderRouter = require('./routers/order')
 
+const router = new express.Router();
+
+router.get('/', async (req, res) =>{
+    res.send({ status: 'Working', time: new Date().toLocaleTimeString(), project: 'CC Project by 174124', name: 'Virtual Dukaan Server',
+        message: 'Use mobile app to view project', author: 'Manthan Mitesh Tolia'
+    })
+})
+
 app.use(express.json())
+app.use(router)
 app.use(userRouter)
 app.use(inventoryRouter)
 app.use(orderRouter)
